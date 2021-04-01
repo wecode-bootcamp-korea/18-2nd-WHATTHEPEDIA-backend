@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class User(models.Model):
     name               = models.CharField(max_length=30)
     email              = models.EmailField(max_length=254, unique=True, null=True)
@@ -13,7 +12,6 @@ class User(models.Model):
     class Meta:
         db_table = 'users'
 
-    
 class AccountType(models.Model):
     account_type = models.CharField(max_length=45)
     
