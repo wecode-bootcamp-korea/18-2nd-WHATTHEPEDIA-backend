@@ -35,7 +35,7 @@ class SearchView(View):
         except Movie.DoesNotExist:
             return JsonResponse({'message': 'Movie Does Not Exist'}, status=400)
         
-
+        
 class MovieListView(View):
     def get(self, request):
         try:
