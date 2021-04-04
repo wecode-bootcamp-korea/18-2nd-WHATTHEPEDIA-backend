@@ -17,7 +17,7 @@ class Movie(models.Model):
     nationality        = models.CharField(max_length=45)
     number_of_audience = models.PositiveIntegerField()
     description        = models.TextField()
-    running_time       = models.TimeField()
+    running_time       = models.PositiveSmallIntegerField()
     is_watcha          = models.BooleanField(default=False)
     category           = models.ForeignKey(Category, on_delete=models.CASCADE)
     main_sort          = models.ForeignKey('MainSort', null=True, on_delete=models.SET_NULL)
