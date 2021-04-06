@@ -52,14 +52,14 @@ class AutoCompleteTest(TestCase):
         response = client.get('/movie/autocomplete?query=소')
         self.assertEqual(response.json(),
             {
-               "result": [
+                'result': [
                     {
-                        "id": 1,
-                        "korean_title": "소닉"
-                    },
+                        'id'          : 1, 
+                        'korean_title': '소닉'
+                    }, 
                     {
-                        "id": 2,
-                        "korean_title": "소울"
+                        'id'          : 2, 
+                        'korean_title': '소울'
                     }
                 ]
             }
@@ -745,13 +745,14 @@ class MovieTest(TestCase):
                     'galleries'     : [
                         "https://github.com/InahChoi/project_whatthe/blob/main/banner5.png?raw=true"
                     ],
-                    'star_graph'    : [
-                        {"review_score":5, "vote":1},
-                        {"review_score":4, "vote":1},
-                        {"review_score":3, "vote":0},
-                        {"review_score":2, "vote":0},
-                        {"review_score":1, "vote":0}
-                    ],
+                    'star_graph'    : 
+                        {
+                            "5" : 1,
+                            "4" : 1,
+                            "3" : 0,
+                            "2" : 0,
+                            "1" : 0
+                        },
 
                     'comments'      : [
                         {
@@ -776,7 +777,8 @@ class MovieTest(TestCase):
                             "category": "영화",
                             "average_stars": 3.0
                         }
-                    ]
+                    ],
+                    'rating_amount' : 6
                 }
             }
         )

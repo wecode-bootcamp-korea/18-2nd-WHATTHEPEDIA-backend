@@ -8,6 +8,7 @@ from movie.models       import MovieLike, UserStar
 from my_settings        import SECRET_KEY, ALGORITHM
 from .utils             import Authorization
 
+
 class SignupView(View):
     def post(self, request):
         try:
@@ -43,6 +44,7 @@ class SignupView(View):
         except KeyError:
             return JsonResponse({'message': 'KEY_ERROR'}, status=400)
 
+
 class LoginView(View):
     def post(self, request):
         try:
@@ -61,6 +63,7 @@ class LoginView(View):
             return JsonResponse({'message': 'KEY_ERROR'}, status=400)
         except User.DoesNotExist:
             return JsonResponse({'message' : 'INVALID_USER'}, status=401)
+
 
 class KakaoView(View):
     def get(self, request):
