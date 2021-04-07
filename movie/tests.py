@@ -51,8 +51,14 @@ class AutoCompleteTest(TestCase):
         self.assertEqual(response.json(),
             {
                "result": [
-                    "소닉",
-                    "소울"
+                    {
+                        "id": 1,
+                        "korean_title": "소닉"
+                    },
+                    {
+                        "id": 2,
+                        "korean_title": "소울"
+                    }
                 ]
             }
         )
