@@ -4,7 +4,9 @@ from django.http        import JsonResponse
 from django.views       import View
 
 from .models            import User
+from movie.models       import MovieLike, UserStar
 from my_settings        import SECRET_KEY, ALGORITHM
+from .utils             import Authorization
 
 class SignupView(View):
     def post(self, request):
@@ -37,7 +39,7 @@ class SignupView(View):
             return JsonResponse({'message' : 'SUCCESS'}, status = 201)
 
         except json.JSONDecodeError:
-            return JsonResponse({'message': 'JSON_DECODE_ERROR'}, status=400)
+             return JsonResponse({'message': 'JSON_DECODE_ERROR'}, status=400)
         except KeyError:
             return JsonResponse({'message': 'KEY_ERROR'}, status=400)
 
@@ -87,3 +89,34 @@ class KakaoView(View):
 
         except KeyError:
             return JsonResponse({'message' : 'KEY_ERROR'}, status=400)
+
+class MyPageView(View):
+    @Authorization
+    def get(self, request):
+        user            = request.user
+        user_star_count = UserStar.objects.filter(user=user).count()
+        mypage_data     = {
+            'user'            : user.name,
+            'profile'         : user.profile_image_url if user.profile_image_url else None,
+            'user_star_count' : user_star_count
+        }
+        return JsonResponse({'mypage_data': mypage_data}, status=200)
+
+class MyEvaluationView(View):
+    @Authorization
+    def get(self, request):
+        try:
+            user = request.user
+            if UserStar.objects.filter(user=user).exists():
+                user_stars = UserStar.objects.filter(user = user).select_related('movie')
+
+                movie_info = [{
+                    'title'        : user_star.movie.korean_title,
+                    'image'        : user_star.movie.movieimage_set.get().image_url,
+                    'is_watcha'    : True if user_star.movie.is_watcha else False,
+                    'star'         : user_star.star,
+                    'release_date' : user_star.movie.release_date,
+                } for user_star in user_stars]
+            return JsonResponse({'movie_info_data' : movie_info}, status=200)
+        except User.DoesNotExist:
+            return JsonResponse({"message": "INVALID_USER"}, status = 400)
