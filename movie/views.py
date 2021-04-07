@@ -17,7 +17,12 @@ class AutoCompleteView(View):
             query  = request.GET.get('query', None)
             movies = Movie.objects.filter(korean_title__icontains=query) 
             
-            query_list = [movie.korean_title for movie in movies]
+            query_list = [
+                {
+                    'id': movie.id,
+                    'korean_title': movie.korean_title
+                }
+                for movie in movies]
 
             return JsonResponse({'result': query_list}, status=200)
         except ValueError:
